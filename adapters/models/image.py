@@ -1,7 +1,6 @@
 class ImageConvertModel:
-    def __init__(self, image_processor, allowed_extensions):
+    def __init__(self, image_processor):
         self.__processor = image_processor
-        self.allowed_extensions = allowed_extensions
 
     def convert(self, input_image, output_image_path, output_format, **kwargs):
         """
