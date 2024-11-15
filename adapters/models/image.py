@@ -18,7 +18,7 @@ class ImageConvertModel:
                     output_format,
                     **kwargs
                 )
-        except:
-            raise Exception("There was an error processing the image.")
+        except Exception as err:
+            raise Exception(f"Convertion processor error: {err}")
         
         return output_image_path
