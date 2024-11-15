@@ -1,15 +1,16 @@
 import os
 from io import BytesIO
 
-from ...utils.constants import WEBP, ALLOWED_EXTENSIONS
+from ...utils.constants import WEBP
 from ...utils.functions import is_file_extension_allowed
 
 OUTPUT_FORMAT = WEBP
 DEFAULT_QUALITY = 95
 
 class ImageConvertController:
-    def __init__(self, handle_image_convert):
+    def __init__(self, handle_image_convert, handle_get_allowed_extensions):
         self.__convert_image = handle_image_convert
+        self.__get_allowed_extensions = handle_get_allowed_extensions
     
     def convert(self, app, request, secure_filename, jsonify):
         if "file" not in request.files:
@@ -22,7 +23,7 @@ class ImageConvertController:
 
         for file in files:
             if not file or not is_file_extension_allowed(
-                file.filename, ALLOWED_EXTENSIONS
+                file.filename, self.__get_allowed_extensions()
             ):
                 return jsonify({
                     "status": "fail",
