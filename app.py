@@ -4,6 +4,7 @@ from flask import Flask, request, jsonify
 from werkzeug.utils import secure_filename
 
 from .routes.convert import image_controller
+from .routes.allowed_extensions import allowed_extensions_controller
 
 UPLOAD_FOLDER = "./uploads"
 
@@ -25,6 +26,13 @@ def after_request(response):
 @app.route("/")
 def status():
     return jsonify({ "status": "success" })
+
+
+@app.route("/allowed-extensions", methods=["GET"])
+def allowed_extensions():
+    return allowed_extensions_controller.get_all(
+        jsonify
+    )
 
 
 @app.route("/convert", methods=["POST"])
