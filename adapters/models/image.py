@@ -1,4 +1,4 @@
-class ImageModel:
+class ImageConvertModel:
     def __init__(self, image_processor, allowed_extensions):
         self.__processor = image_processor
         self.allowed_extensions = allowed_extensions

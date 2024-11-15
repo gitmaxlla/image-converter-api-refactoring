@@ -7,7 +7,7 @@ from ...utils.functions import is_file_extension_allowed
 OUTPUT_FORMAT = WEBP
 DEFAULT_QUALITY = 95
 
-class ImageController:
+class ImageConvertController:
     def __init__(self, handle_image_convert):
         self.__convert_image = handle_image_convert
     

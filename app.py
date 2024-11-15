@@ -21,9 +21,11 @@ def after_request(response):
     response.headers["Pragma"] = "no-cache"
     return response
 
+
 @app.route("/")
 def status():
     return jsonify({ "status": "success" })
+
 
 @app.route("/convert", methods=["POST"])
 def convert():
