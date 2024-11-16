@@ -20,7 +20,7 @@ class OutputParamsController:
                 }
             }), 200
         except KeyError as err:
-            print(f"Invalid key:{err}")
+            print(f"Invalid format name:{err}")
             return jsonify({
                 "status": "fail",
                 "data": {
