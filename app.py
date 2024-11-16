@@ -5,6 +5,7 @@ from werkzeug.utils import secure_filename
 
 from .routes.convert import image_controller
 from .routes.allowed_extensions import allowed_extensions_controller
+from .routes.output_format_params import output_params_controller
 
 UPLOAD_FOLDER = "./uploads"
 
@@ -31,6 +32,14 @@ def status():
 @app.route("/allowed-extensions", methods=["GET"])
 def allowed_extensions():
     return allowed_extensions_controller.get_all(
+        jsonify
+    )
+
+
+@app.route("/output-format-params", methods=["POST"])
+def output_format_params():
+    return output_params_controller.get_format_params(
+        request,
         jsonify
     )
 
