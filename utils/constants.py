@@ -28,6 +28,7 @@ FORMAT_PARAMS = {
       "name": "quality",
       "label": "Image quality",
       "description": "From 0 to 100. Higher is better, but larger size.",
+      "is_range": 1,
       "min": 0,
       "max": 100,
       "default": DEFAULT_QUALITY
@@ -62,6 +63,7 @@ FORMAT_PARAMS = {
       "label": "Compression level",
       "description": \
         "From 0 to 9. Lower is faster convertion speed, but larger file size.",
+      "is_range": 1,
       "min": 0,
       "max": 9,
       "default": 6
@@ -92,6 +94,7 @@ FORMAT_PARAMS = {
       },
       "label": "Image quality",
       "description": "From 0 to 100. More is better, but larger size.",
+      "is_range": 1,
       "min": 0,
       "max": 100,
       "default": DEFAULT_QUALITY
@@ -105,6 +108,7 @@ FORMAT_PARAMS = {
       "label": "Compression speed",
       "description": \
         "Quality/speed tradeoff from 0 to 6. Higher is better, but slower.",
+      "is_range": 1,
       "min": 0,
       "max": 6,
       "default": 4
