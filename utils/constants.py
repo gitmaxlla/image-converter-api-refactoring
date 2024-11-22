@@ -84,14 +84,14 @@ FORMAT_PARAMS = {
       "description": \
         "Compress without any quality loss. Can impact file size negatively.",
       "is_bool": 1,
-      "default": 0
+      "default": 0,
+      "disables_params_on_value" : {
+        0: [],
+        1: [ "quality", "method" ]
+      }
     },
     {
       "name": "quality",
-      "depends_on": {
-        "param_name": "lossless",
-        "param_value": 0
-      },
       "label": "Image quality",
       "description": "From 0 to 100. More is better, but larger size.",
       "is_range": 1,
@@ -101,10 +101,6 @@ FORMAT_PARAMS = {
     },
     {
       "name": "method",
-      "depends_on": {
-        "param_name": "lossless",
-        "param_value": 0
-      },
       "label": "Compression speed",
       "description": \
         "Quality/speed tradeoff from 0 to 6. Higher is better, but slower.",
