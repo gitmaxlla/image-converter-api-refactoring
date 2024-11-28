@@ -93,7 +93,7 @@ FORMAT_PARAMS = {
     {
       "name": "quality",
       "label": "Image quality",
-      "description": "From 0 to 100. More is better, but larger size.",
+      "description": "From 0 to 100. Higher is better, but larger size.",
       "is_range": 1,
       "min": 0,
       "max": 100,
@@ -101,9 +101,9 @@ FORMAT_PARAMS = {
     },
     {
       "name": "method",
-      "label": "Compression speed",
+      "label": "Processing effort",
       "description": \
-        "Quality/speed tradeoff from 0 to 6. Higher is better, but slower.",
+        "Quality/speed tradeoff from 0 to 6. Higher is better quality, but slower.",
       "is_range": 1,
       "min": 0,
       "max": 6,
