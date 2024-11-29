@@ -8,9 +8,14 @@ OUTPUT_FORMAT = WEBP
 DEFAULT_QUALITY = 95
 
 class ImageConvertController:
-    def __init__(self, handle_image_convert, handle_get_allowed_extensions):
+    def __init__(
+      self,
+      handle_image_convert,
+      handle_get_allowed_input_file_extensions
+    ):
         self.__convert_image = handle_image_convert
-        self.__get_allowed_extensions = handle_get_allowed_extensions
+        self.__get_allowed_input_file_extensions = \
+          handle_get_allowed_input_file_extensions
     
     def convert(self, app, request, secure_filename, jsonify):
         if "file" not in request.files:
@@ -23,7 +28,7 @@ class ImageConvertController:
 
         for file in files:
             if not file or not is_file_extension_allowed(
-                file.filename, self.__get_allowed_extensions()
+                file.filename, self.__get_allowed_input_file_extensions()
             ):
                 return jsonify({
                     "status": "fail",
