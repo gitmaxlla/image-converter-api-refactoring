@@ -5,9 +5,11 @@ JPG = "jpg"
 JPEG = "jpeg"
 PNG = "png"
 WEBP = "webp"
+MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024
 ALLOWED_IO = {
   "input": {
-    "file_extensions": [ ICO, JPG, JPEG, PNG, WEBP ]
+    "file_extensions": [ ICO, JPG, JPEG, PNG, WEBP ],
+    "max_file_size_bytes": MAX_FILE_SIZE_BYTES
   },
   "output": {
     "file_formats": [ ICO, JPEG, PNG, WEBP ]
