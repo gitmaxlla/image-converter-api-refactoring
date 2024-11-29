@@ -5,7 +5,6 @@ JPG = "jpg"
 JPEG = "jpeg"
 PNG = "png"
 WEBP = "webp"
-ALLOWED_EXTENSIONS = {ICO, JPG, JPEG, PNG, WEBP}
 ALLOWED_IO = {
   "input": {
     "file_extensions": [ ICO, JPG, JPEG, PNG, WEBP ]
