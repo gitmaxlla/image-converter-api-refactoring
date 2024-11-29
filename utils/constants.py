@@ -6,6 +6,14 @@ JPEG = "jpeg"
 PNG = "png"
 WEBP = "webp"
 ALLOWED_EXTENSIONS = {ICO, JPG, JPEG, PNG, WEBP}
+ALLOWED_IO = {
+  "input": {
+    "file_extensions": [ ICO, JPG, JPEG, PNG, WEBP ]
+  },
+  "output": {
+    "file_formats": [ ICO, JPEG, PNG, WEBP ]
+  }
+}
 DEFAULT_QUALITY = 95
 FORMAT_PARAMS = {
   ICO: [
