@@ -1,3 +1,5 @@
+from ...utils.constants import JPEG
+
 class ImageConvertModel:
     def __init__(self, image_processor):
         self.__processor = image_processor
@@ -17,6 +19,10 @@ class ImageConvertModel:
                 mod_args[arg] = kwargs[arg]
 
             with self.__processor.open(input_image) as image:
+                if output_format == JPEG:
+                    image = image.convert("RGB")
+                    mod_args["keep_rgb"] = True
+
                 if mod_args.get("exif") == True:
                     mod_args["exif"] = image.getexif()
                     
