@@ -33,3 +33,23 @@ class AllowedOutputParamsModel:
       allowed_output_params.append(item["name"])
 
     return allowed_output_params
+  
+class FormatOutputParamsModel:
+    def __init__(self):
+        self.__format_items = FORMAT_PARAMS
+
+    def get_formatted_output_params(self, output_format, output_params):
+        items = self.__format_items[output_format]
+        formatted_output_params = dict()
+
+        for paramName in output_params:
+            for item in items:
+                if item.get("name") == paramName and item.get("is_bool") == 1:
+                    if output_params[paramName] == 1:
+                      formatted_output_params[paramName] = \
+                        bool(output_params[paramName])
+                elif item.get("name") == paramName:
+                    formatted_output_params[paramName] = \
+                      output_params[paramName]
+                  
+        return formatted_output_params
