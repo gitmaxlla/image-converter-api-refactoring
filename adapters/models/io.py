@@ -48,6 +48,10 @@ class FormatOutputParamsModel:
                     if output_params[paramName] == 1:
                       formatted_output_params[paramName] = \
                         bool(output_params[paramName])
+                elif item.get("name") == paramName \
+                    and isinstance(item.get("options"), list):
+                        formatted_output_params[paramName] = \
+                          [tuple(output_params[paramName])]
                 elif item.get("name") == paramName:
                     formatted_output_params[paramName] = \
                       output_params[paramName]
