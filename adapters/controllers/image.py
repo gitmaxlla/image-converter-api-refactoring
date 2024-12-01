@@ -1,30 +1,53 @@
 import os
 from io import BytesIO
+import json
 
 from ...utils.constants import WEBP
-from ...utils.functions import is_file_extension_allowed
-
-OUTPUT_FORMAT = WEBP
-DEFAULT_QUALITY = 95
+from ...utils.functions import \
+  is_file_extension_allowed, is_output_format_allowed, are_valid_output_params
 
 class ImageConvertController:
     def __init__(
       self,
       handle_image_convert,
-      handle_get_allowed_input_file_extensions
+      handle_get_allowed_input_file_extensions,
+      handle_get_allowed_output_formats,
+      handle_get_allowed_output_params,
+      handle_get_formatted_output_params
     ):
         self.__convert_image = handle_image_convert
         self.__get_allowed_input_file_extensions = \
           handle_get_allowed_input_file_extensions
+        self.__get_allowed_output_formats = \
+          handle_get_allowed_output_formats
+        self.__get_allowed_output_params = \
+          handle_get_allowed_output_params
+        self.__get_formatted_output_params = \
+          handle_get_formatted_output_params
     
     def convert(self, app, request, secure_filename, jsonify):
-        if "file" not in request.files:
+        if "files" not in request.files:
           return jsonify({
               "status": "fail",
               "data": { "message": "No selected file or files." }
           }), 400
     
-        files = request.files.getlist("file")
+        files = request.files.getlist("files")
+        filesConfig = request.form.get("files_config")
+
+        if not filesConfig or len(filesConfig) == 0:
+            return jsonify({
+                "status": "fail",
+                "data": { "message": "No files config found." }
+            })
+
+        try:
+            filesConfig = json.loads(filesConfig)
+        except:
+            return jsonify({
+                "status": "fail",
+                "data": { "message": "Unable to parse files config." }
+            }), 400
 
         for file in files:
             if not file or not is_file_extension_allowed(
@@ -36,8 +59,31 @@ class ImageConvertController:
                 }), 400
             
             input_image = BytesIO(file.stream.read())
+            output_format = filesConfig[file.filename]["outputFormat"]
+            output_params = filesConfig[file.filename]["outputParams"]
+
+            if not is_output_format_allowed(
+                output_format, self.__get_allowed_output_formats()
+            ):
+                return jsonify({
+                    "status": "fail",
+                    "data": { "message", "No output format or not allowed." }
+                }), 400
+            
+            if not are_valid_output_params(
+              output_format,
+              output_params,
+              self.__get_allowed_output_params(output_format)
+            ):
+                return jsonify({
+                    "status": "fail",
+                    "data": {
+                        "message": "One or more output params are invalid."
+                    }
+                }), 400
+
             output_filename = secure_filename(
-                f"{file.filename.rsplit(".", 1)[0]}.{OUTPUT_FORMAT}"
+                f"{file.filename.rsplit(".", 1)[0]}.{output_format}"
             )
             output_path = os.path.join(
                 app.config["UPLOAD_FOLDER"], output_filename
@@ -47,8 +93,11 @@ class ImageConvertController:
                 self.__convert_image(
                     input_image,
                     output_path,
-                    OUTPUT_FORMAT,
-                    quality = DEFAULT_QUALITY
+                    output_format,
+                    **self.__get_formatted_output_params(
+                        output_format,
+                        output_params
+                    )
                 )
             except Exception as err:
                 print(err)
