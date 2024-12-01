@@ -13,3 +13,10 @@ class AllowedInputFileExtensionsModel:
 
   def get_all(self):
     return self.__allowed_extensions
+  
+class AllowedOutputFormatsModel:
+  def __init__(self):
+    self.__allowed_output_formats = ALLOWED_IO["output"]["file_formats"]
+
+  def get_all(self):
+    return self.__allowed_output_formats
