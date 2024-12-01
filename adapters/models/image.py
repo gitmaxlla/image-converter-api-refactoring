@@ -12,11 +12,18 @@ class ImageConvertModel:
             raise Exception("Output image path must be a string.")
 
         try:
+            mod_args = {}
+            for arg in kwargs:
+                mod_args[arg] = kwargs[arg]
+
             with self.__processor.open(input_image) as image:
+                if mod_args.get("exif") == True:
+                    mod_args["exif"] = image.getexif()
+                    
                 image.save(
                     output_image_path,
                     output_format,
-                    **kwargs
+                    **mod_args
                 )
         except Exception as err:
             raise Exception(f"Convertion processor error: {err}")
