@@ -3,6 +3,8 @@ import os
 from flask import Flask, request, jsonify
 from werkzeug.utils import secure_filename
 
+from .utils.constants import MAX_FILE_SIZE_BYTES
+
 from .routes.convert import image_controller
 from .routes.allowed_io import allowed_IO_controller
 from .routes.output_format_params import output_params_controller
@@ -15,6 +17,7 @@ if not os.path.exists(UPLOAD_FOLDER):
 app = Flask(__name__)
 
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+app.config["MAX_CONTENT_LENGTH"] = MAX_FILE_SIZE_BYTES
 
 @app.after_request
 def after_request(response):
