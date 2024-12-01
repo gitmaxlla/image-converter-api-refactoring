@@ -29,7 +29,7 @@ def status():
     return jsonify({ "status": "success" })
 
 
-@app.route("/allowed-io", methods=["GET"])
+@app.route("/allowed-io-params", methods=["GET"])
 def allowed_io():
     return allowed_IO_controller.get_io_params(
         jsonify
