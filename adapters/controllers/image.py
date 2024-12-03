@@ -26,86 +26,88 @@ class ImageConvertController:
           handle_get_formatted_output_params
     
     def convert(self, app, request, secure_filename, jsonify):
-        if "files" not in request.files:
+        if "file" not in request.files:
           return jsonify({
               "status": "fail",
               "data": { "message": "No selected file or files." }
           }), 400
     
-        files = request.files.getlist("files")
-        filesConfig = request.form.get("files_config")
+        file = request.files["file"]
+        fileConfig = request.form.get("file_config")
 
-        if not filesConfig or len(filesConfig) == 0:
+        if not fileConfig or len(fileConfig) == 0:
             return jsonify({
                 "status": "fail",
-                "data": { "message": "No files config found." }
+                "data": { "message": "No file config found." }
             })
 
         try:
-            filesConfig = json.loads(filesConfig)
+            fileConfig = json.loads(fileConfig)
         except:
             return jsonify({
                 "status": "fail",
                 "data": { "message": "Unable to parse files config." }
             }), 400
 
-        for file in files:
-            if not file or not is_file_extension_allowed(
-                file.filename, self.__get_allowed_input_file_extensions()
-            ):
-                return jsonify({
-                    "status": "fail",
-                    "data": { "message": "One or more files are unsupported." }
-                }), 400
-            
-            input_image = BytesIO(file.stream.read())
-            output_format = filesConfig[file.filename]["outputFormat"]
-            output_params = filesConfig[file.filename]["outputParams"]
+        if not file or not is_file_extension_allowed(
+            file.filename, self.__get_allowed_input_file_extensions()
+        ):
+            return jsonify({
+                "status": "fail",
+                "data": { "message": "One or more files are unsupported." }
+            }), 400
+        
+        input_image = BytesIO(file.stream.read())
+        output_format = fileConfig["outputFormat"]
+        output_params = fileConfig["outputParams"]
 
-            if not is_output_format_allowed(
-                output_format, self.__get_allowed_output_formats()
-            ):
-                return jsonify({
-                    "status": "fail",
-                    "data": { "message", "No output format or not allowed." }
-                }), 400
-            
-            if not are_valid_output_params(
-              output_format,
-              output_params,
-              self.__get_allowed_output_params(output_format)
-            ):
-                return jsonify({
-                    "status": "fail",
-                    "data": {
-                        "message": "One or more output params are invalid."
-                    }
-                }), 400
+        if not is_output_format_allowed(
+            output_format, self.__get_allowed_output_formats()
+        ):
+            return jsonify({
+                "status": "fail",
+                "data": { "message", "No output format or not allowed." }
+            }), 400
+        
+        if not are_valid_output_params(
+          output_format,
+          output_params,
+          self.__get_allowed_output_params(output_format)
+        ):
+            return jsonify({
+                "status": "fail",
+                "data": {
+                    "message": "One or more output params are invalid."
+                }
+            }), 400
 
-            output_filename = secure_filename(
-                f"{file.filename.rsplit(".", 1)[0]}.{output_format}"
-            )
-            output_path = os.path.join(
-                app.config["UPLOAD_FOLDER"], output_filename
-            )
+        output_filename = secure_filename(
+            f"{file.filename.rsplit(".", 1)[0]}.{output_format}"
+        )
+        output_path = os.path.join(
+            app.config["UPLOAD_FOLDER"], output_filename
+        )
 
-            try:
-                self.__convert_image(
-                    input_image,
-                    output_path,
+        try:
+            self.__convert_image(
+                input_image,
+                output_path,
+                output_format,
+                **self.__get_formatted_output_params(
                     output_format,
-                    **self.__get_formatted_output_params(
-                        output_format,
-                        output_params
-                    )
+                    output_params
                 )
-            except Exception as err:
-                print(err)
-                return jsonify({
-                    "status": "fail",
-                    "data":
-                        { "message": "There was an error saving the images."}
-                }), 500
+            )
+        except Exception as err:
+            print(err)
+            return jsonify({
+                "status": "fail",
+                "data":
+                    { "message": "There was an error saving the images."}
+            }), 500
 
-        return jsonify({"status" : "success"}), 200
+        return jsonify({
+          "status" : "success",
+          "data": { "convertionId": file.filename }
+        }), 200
         
