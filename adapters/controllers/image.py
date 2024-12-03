@@ -2,7 +2,6 @@ import os
 from io import BytesIO
 import json
 
-from ...utils.constants import WEBP
 from ...utils.functions import \
   is_file_extension_allowed, is_output_format_allowed, are_valid_output_params
 
