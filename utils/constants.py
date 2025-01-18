@@ -15,7 +15,7 @@ ALLOWED_IO = {
     "file_formats": [ ICO, JPEG, PNG, WEBP ]
   }
 }
-DEFAULT_QUALITY = 95
+DEFAULT_QUALITY = 80
 FORMAT_PARAMS = {
   ICO: [
     {
@@ -116,7 +116,7 @@ FORMAT_PARAMS = {
       "is_range": 1,
       "min": 0,
       "max": 6,
-      "default": 4
+      "default": 6
     },
     {
       "name": "exif",
