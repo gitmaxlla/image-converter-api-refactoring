@@ -1,21 +1,25 @@
 # Pillow format docs:
 # https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html
+UPLOAD_FOLDER = "./converter/main/uploads"
+MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024
+DEFAULT_QUALITY = 80
+
 ICO = "ico"
 JPG = "jpg"
 JPEG = "jpeg"
 PNG = "png"
 WEBP = "webp"
-MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024
+
 ALLOWED_IO = {
   "input": {
-    "file_extensions": [ ICO, JPG, JPEG, PNG, WEBP ],
+    "file_extensions": [ICO, JPG, JPEG, PNG, WEBP],
     "max_file_size_bytes": MAX_FILE_SIZE_BYTES
   },
   "output": {
-    "file_formats": [ ICO, JPEG, PNG, WEBP ]
+    "file_formats": [ICO, JPEG, PNG, WEBP]
   }
 }
-DEFAULT_QUALITY = 80
+
 FORMAT_PARAMS = {
   ICO: [
     {
@@ -45,8 +49,8 @@ FORMAT_PARAMS = {
     {
       "name": "optimize",
       "label": "Encoder optimization",
-      "description": \
-        "Optimize encoder settings. Improves quality at the cost of speed.",
+      "description":
+      "Optimize encoder settings. Improves quality at the cost of speed.",
       "is_bool": 1,
       "default": 0
     },
@@ -60,8 +64,8 @@ FORMAT_PARAMS = {
     {
       "name": "exif",
       "label": "Keep metadata",
-      "description": \
-        "Keep color profiles, EXIF and comments. This may increase file size.",
+      "description": ("Keep color profiles, EXIF and comments. "
+                      "This may increase file size."),
       "is_bool": 1,
       "default": 0
     }
@@ -70,8 +74,8 @@ FORMAT_PARAMS = {
     {
       "name": "compress_level",
       "label": "Compression level",
-      "description": \
-        "From 0 to 9. Lower is faster convertion speed, but larger file size.",
+      "description":
+      "From 0 to 9. Lower is faster convertion speed, but larger file size.",
       "is_range": 1,
       "min": 0,
       "max": 9,
@@ -80,8 +84,8 @@ FORMAT_PARAMS = {
     {
       "name": "exif",
       "label": "Keep metadata",
-      "description": \
-        "Keep color profiles, EXIF and comments. This may increase file size.",
+      "description":
+      "Keep color profiles, EXIF and comments. This may increase file size.",
       "is_bool": 1,
       "default": 0
     }
@@ -90,13 +94,13 @@ FORMAT_PARAMS = {
     {
       "name": "lossless",
       "label": "Lossless compression",
-      "description": \
-        "Compress without any quality loss. Can impact file size negatively.",
+      "description":
+      "Compress without any quality loss. Can impact file size negatively.",
       "is_bool": 1,
       "default": 0,
-      "disables_params_on_value" : {
+      "disables_params_on_value": {
         0: [],
-        1: [ "quality", "method" ]
+        1: ["quality", "method"]
       }
     },
     {
@@ -111,8 +115,8 @@ FORMAT_PARAMS = {
     {
       "name": "method",
       "label": "Processing effort",
-      "description": \
-        "Quality/speed tradeoff from 0 to 6. Higher is better quality, but slower.",
+      "description": ("Quality/speed tradeoff from 0 to 6. "
+                      "Higher is better quality, but slower."),
       "is_range": 1,
       "min": 0,
       "max": 6,
@@ -121,8 +125,9 @@ FORMAT_PARAMS = {
     {
       "name": "exif",
       "label": "Keep metadata",
-      "description": \
-        "Keep color profiles, EXIF and comments. This may increase file size.",
+      "description":
+      ("Keep color profiles, EXIF and comments. "
+       "This may increase file size."),
       "is_bool": 1,
       "default": 0
     }

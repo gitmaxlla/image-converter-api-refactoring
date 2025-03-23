@@ -5,12 +5,12 @@ class OutputParamsController:
     def get_format_params(self, request, jsonify):
         output_format = request.form.get("output_format")
 
-        if not output_format or len(output_format) == 0:
+        if not output_format:
             return jsonify({
                 "status": "fail",
-                "data": { "message": "No output format specified." }
+                "data": {"message": "No output format specified."}
             }), 400
-        
+
         try:
             params = self.__get_format_params(output_format)
             return jsonify({
