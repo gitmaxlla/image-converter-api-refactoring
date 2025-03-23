@@ -206,6 +206,9 @@ def output_format_params_is_available(format):
 
     return successfulResponse(response)
 
+def replace_extension(file_path, replace_to):
+    return file_path.rsplit(".", 1)[0] + "." + replace_to
+
 def convert_from_to_is_successful(format_from, format_to, file_name='sample'):
         file_config = json.dumps({
                 "outputFormat": format_to,
@@ -220,4 +223,4 @@ def convert_from_to_is_successful(format_from, format_to, file_name='sample'):
             return False
 
         image_path = response.json["data"]["convertionId"]
-        return imageIsValid(image_path)
+        return imageIsValid(replace_extension(image_path, format_to))
